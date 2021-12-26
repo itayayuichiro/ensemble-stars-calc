@@ -8,8 +8,8 @@
   <title>あんスタイベント計算機</title>
 </head>
 <body>
-    目標ポイント: <input type="number" /> <br />
-    アベレージスコア: <input type="number" /> <br />
+    目標ポイント: <input type="number" placeholder="350" id="target_score"/>万pt <br />
+    アベレージスコア: <input type="number" placeholder="180" id="high_score"/>万 <br />
     特攻枚数 星5: 
     <select id="tokkou_5"></select> 
     特攻枚数 星4: 
@@ -17,16 +17,43 @@
     特攻枚数 星3: 
     <select id="tokkou_3"></select> 
     <br />
-    アベレージスコア: <input type="number" /> <br />
-    
-    アベレージスコア: <input type="number" /> <br />
+    必要なBP: <input type="number" id="result" readonly/> <br />
+    6BPで走った場合: <input type="number" id="result_6" readonly/> <br />
+    10BPで走った場合: <input type="number" id="result_10" readonly/> <br />
+    <input type="button" id="submit" value="計算"/>    
     <script>
       for(var i = 0;i < 6;i++){
         $('#tokkou_5').append('<option value="'+i+'">'+i+'</option>');
         $('#tokkou_4').append('<option value="'+i+'">'+i+'</option>');
         $('#tokkou_3').append('<option value="'+i+'">'+i+'</option>');
       }
+      // 1BPあたりのイベントポイント=2000
+      // 1BPあたりスコアボーナス=スコア×0.0002
+      // 1BPあたりの取得PASS=10
+      // 参加パス1000枚の取得ポイント10万ポイント
+      // 参加パス10枚の取得ポイント1000ポイント
+      function calc(){
+        var x,x6,x10;
+        var t = $('#target_score').val();
+        var h = $('#high_score').val();
+        // 1BPでライブした場合の獲得ポイント
+        var nomal_live_point = (h * 10000) * 0.0002 + 2000;
+        // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
+        var event_live_point = 100 * 10 + ((h * 10000) * 0.0002)/10;
+        console.log("n"+nomal_live_point);
+        console.log("e"+event_live_point);
+        // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
+        x = Math.ceil((t * 10000) / (((h * 10000) * 0.0002 + 2000 + 100) * 1));
+        x6 = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 6));
+        x10 = Math.ceil((t * 10000) / (((h * 10000) * 0.0002 + 2000 + 100) * 10));
+        $('#result').val(x);
+        $('#result_6').val(x6);
+        $('#result_10').val(x10);
+      }
 
+      const button = document.getElementById('submit');
+      button.setAttribute('onclick', 'calc()');
+    
     </script>
 </body>
 </html>
