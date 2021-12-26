@@ -39,13 +39,14 @@
         // 1BPでライブした場合の獲得ポイント
         var nomal_live_point = (h * 10000) * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
+        // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
         var event_live_point = 100 * 10 + ((h * 10000) * 0.0002)/10;
         console.log("n"+nomal_live_point);
         console.log("e"+event_live_point);
         // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
-        x = Math.ceil((t * 10000) / (((h * 10000) * 0.0002 + 2000 + 100) * 1));
+        x = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 1));
         x6 = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 6));
-        x10 = Math.ceil((t * 10000) / (((h * 10000) * 0.0002 + 2000 + 100) * 10));
+        x10 = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 10));
         $('#result').val(x);
         $('#result_6').val(x6);
         $('#result_10').val(x10);
