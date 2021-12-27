@@ -1,100 +1,133 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="js/uikit.min.js"></script>
-  <script src="js/uikit-icons.min.js"></script>
-  <link rel="stylesheet" href="css/uikit.min.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <title>あんスタイベント計算機</title>
-</head>
-<body class="uk-dark uk-background-muted">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <title>あんスタイベント計算機</title>
+  </head>
+  <body class="uk-dark uk-background-muted">
     <div class="uk-container">
+      <div class="uk-section">
+        <h3>あんスタイベント計算機</h3>
+      </div>
       <fieldset class="uk-fieldset">
         <div class="uk-margin">
-          目標ポイント: <input type="number" class="uk-input uk-form-width-small" placeholder="350" id="target_score"/>万pt
+          <label class="uk-form-label" for="form-stacked-text"
+            >目標ポイント:</label
+          >
+          <div class="uk-form-controls">
+            <input
+              type="number"
+              class="uk-input uk-form-width-small"
+              placeholder="350"
+              id="target_score"
+            />万pt
+          </div>
         </div>
         <div class="uk-margin">
-          アベレージスコア: <input type="number" class="uk-input uk-form-width-small" placeholder="180" id="high_score"/>万
+          <label class="uk-form-label" for="form-stacked-text"
+            >アベレージスコア:</label
+          >
+          <div class="uk-form-controls">
+            <input
+              type="number"
+              class="uk-input uk-form-width-small"
+              placeholder="180"
+              id="high_score"
+            />万
+          </div>
         </div>
-        <table class="uk-table">
-          <caption>特攻枚数</caption>
-          <tbody>
-            <tr>
-              <td class="uk-width-small">
-                星5
-              </td>
-              <td>
-                <select class="uk-select" id="tokkou_5"></select> 
-              </td>
-            </tr>
-            <tr>
-              <td class="uk-width-small">
-                星4
-              </td>
-              <td>
-                <select class="uk-select" id="tokkou_4"></select> 
-              </td>
-            </tr>
-            <tr>
-              <td class="uk-width-small">
-                星3
-              </td>
-              <td>
-                <select class="uk-select" id="tokkou_3"></select> 
-              </td>
-            </tr>
-        </tbody>
-      </table>
-        <!-- 特攻枚数 星5: 
-        <select class="uk-select uk-form-width-small" id="tokkou_5"></select> 
-        星4: 
-        <select class="uk-select uk-form-width-small" id="tokkou_4"></select> 
-        星3: 
-        <select class="uk-select uk-form-width-small" id="tokkou_3"></select>  -->
+        <label class="uk-form-label" for="form-stacked-text">特攻枚数:</label>
+        <div uk-grid>
+          <div class="uk-width-1-3">
+            特攻枚数 星5:
+            <select
+              class="uk-select uk-form-width-small"
+              id="tokkou_5"
+            ></select>
+          </div>
+          <div class="uk-width-1-3">
+            特攻枚数 星4:
+            <select
+              class="uk-select uk-form-width-small"
+              id="tokkou_4"
+            ></select>
+          </div>
+          <div class="uk-width-1-3">
+            特攻枚数 星3:
+            <select
+              class="uk-select uk-form-width-small"
+              id="tokkou_3"
+            ></select>
+          </div>
+        </div>
         <br />
-        必要なBP: <input type="number" id="result" readonly/> <br />
-        6BPで走った場合: <input type="number" id="result_6" readonly/> <br />
-        10BPで走った場合: <input type="number" id="result_10" readonly/> <br />
-        <input type="button" id="submit" value="計算"/>
+        必要なBP: <input type="number" id="result" readonly /> <br />
+        6BPで走った場合: <span class="count-up count-size"></span>回</p> <br />
+        10BPで走った場合: <input type="number" id="result_10" readonly /> <br />
+        <input type="button" id="submit" value="計算" />
       </fieldset>
     </div>
     <script>
-      for(var i = 0;i < 6;i++){
-        $('#tokkou_5').append('<option value="'+i+'">'+i+'</option>');
-        $('#tokkou_4').append('<option value="'+i+'">'+i+'</option>');
-        $('#tokkou_3').append('<option value="'+i+'">'+i+'</option>');
+      for (var i = 0; i < 6; i++) {
+        $("#tokkou_5").append('<option value="' + i + '">' + i + "</option>");
+        $("#tokkou_4").append('<option value="' + i + '">' + i + "</option>");
+        $("#tokkou_3").append('<option value="' + i + '">' + i + "</option>");
       }
       // 1BPあたりのイベントポイント=2000
       // 1BPあたりスコアボーナス=スコア×0.0002
       // 1BPあたりの取得PASS=10
       // 参加パス1000枚の取得ポイント10万ポイント
       // 参加パス10枚の取得ポイント1000ポイント
-      function calc(){
-        var x,x6,x10;
-        var t = $('#target_score').val();
-        var h = $('#high_score').val();
+      function calc() {
+        var x, x6, x10;
+        var t = $("#target_score").val();
+        var h = $("#high_score").val();
         // 1BPでライブした場合の獲得ポイント
-        var nomal_live_point = (h * 10000) * 0.0002 + 2000;
+        var nomal_live_point = h * 10000 * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
         // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
-        var event_live_point = 100 * 10 + ((h * 10000) * 0.0002)/10;
-        console.log("n"+nomal_live_point);
-        console.log("e"+event_live_point);
+        var event_live_point = 100 * 10 + (h * 10000 * 0.0002) / 10;
         // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
-        x = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 1));
-        x6 = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 6));
-        x10 = Math.ceil((t * 10000) / ((nomal_live_point + event_live_point) * 10));
-        $('#result').val(x);
-        $('#result_6').val(x6);
-        $('#result_10').val(x10);
-      }
+        x = Math.ceil(
+          (t * 10000) / ((nomal_live_point + event_live_point) * 1)
+        );
+        x6 = Math.ceil(
+          (t * 10000) / ((nomal_live_point + event_live_point) * 6)
+        );
+        x10 = Math.ceil(
+          (t * 10000) / ((nomal_live_point + event_live_point) * 10)
+        );
+        $("#result").val(x);
+        $(".count-up").text(x6);
+        $("#result_10").val(x10);
+        // カウントアップアニメーション用スクリプト
+        $(".count-up").each(function(){
+        $(this).prop('Counter',0).animate({//0からカウントアップ
+              Counter: $(this).text()
+          }, {
+          // スピードやアニメーションの設定
+              duration: 2000,//数字が大きいほど変化のスピードが遅くなる。2000=2秒
+              easing: 'swing',//動きの種類。他にもlinearなど設定可能
+              step: function (now) {
+                  $(this).text(Math.ceil(now));
+              }
+          });
+        });
 
-      const button = document.getElementById('submit');
-      button.setAttribute('onclick', 'calc()');
-    
+      }
+      const button = document.getElementById("submit");
+      button.setAttribute("onclick", "calc()");
+
     </script>
-</body>
+  </body>
 </html>
