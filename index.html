@@ -78,10 +78,36 @@
       </fieldset>
     </div>
     <script>
+      const tokkou = [
+        [
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.2},
+          {"label" :"0","value":0.5},
+          {"label" :"0","value":0.75},
+          {"label" :"0","value":1.0},
+          {"label" :"0","value":1.5}
+        ],
+        [
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.05},
+          {"label" :"0","value":0.15},
+          {"label" :"0","value":0.25},
+          {"label" :"0","value":0.35},
+          {"label" :"0","value":0.5}
+        ],
+        [
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.01},
+          {"label" :"0","value":0.02},
+          {"label" :"0","value":0.03},
+          {"label" :"0","value":0.04},
+          {"label" :"0","value":0.05}
+        ]
+      ]
       for (var i = 0; i < 6; i++) {
-        $("#tokkou_5").append('<option value="' + i + '">' + i + "</option>");
-        $("#tokkou_4").append('<option value="' + i + '">' + i + "</option>");
-        $("#tokkou_3").append('<option value="' + i + '">' + i + "</option>");
+        $("#tokkou_5").append('<option value="' + tokkou[0][i]["value"] + '">' + i + "</option>");
+        $("#tokkou_4").append('<option value="' + tokkou[1][i]["value"] + '">' + i + "</option>");
+        $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
       }
       // 1BPあたりのイベントポイント=2000
       // 1BPあたりスコアボーナス=スコア×0.0002
@@ -92,6 +118,8 @@
         var x, x6, x10;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
+        var tokkou = 1.0 + parseFloat($("#tokkou_5").val()) + parseFloat($("#tokkou_4").val()) + parseFloat($("#tokkou_3").val());
+        console.log(tokkou);
         // 1BPでライブした場合の獲得ポイント
         var nomal_live_point = h * 10000 * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
@@ -99,13 +127,13 @@
         var event_live_point = 100 * 10 + (h * 10000 * 0.0002) / 10;
         // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
         x = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * 1)
+          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
         );
         x6 = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * 6)
+          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 6)
         );
         x10 = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * 10)
+          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 10)
         );
         $("#result").val(x);
         $(".count-up").text(x6);
