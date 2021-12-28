@@ -118,8 +118,8 @@
         var x, x6, x10;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
+        // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
         var tokkou = 1.0 + parseFloat($("#tokkou_5").val()) + parseFloat($("#tokkou_4").val()) + parseFloat($("#tokkou_3").val());
-        console.log(tokkou);
         // 1BPでライブした場合の獲得ポイント
         var nomal_live_point = h * 10000 * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
