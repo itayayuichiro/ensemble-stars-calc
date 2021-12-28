@@ -49,31 +49,42 @@
         <label class="uk-form-label" for="form-stacked-text">特攻枚数:</label>
         <div uk-grid>
           <div class="uk-width-1-3">
-            特攻枚数 星5:
+            星5:
             <select
               class="uk-select uk-form-width-small"
               id="tokkou_5"
             ></select>
           </div>
           <div class="uk-width-1-3">
-            特攻枚数 星4:
+            星4:
             <select
               class="uk-select uk-form-width-small"
               id="tokkou_4"
             ></select>
           </div>
           <div class="uk-width-1-3">
-            特攻枚数 星3:
+            星3:
             <select
               class="uk-select uk-form-width-small"
               id="tokkou_3"
             ></select>
           </div>
         </div>
-        <br />
+        <label class="uk-form-label" for="form-stacked-text">走るBP:</label>
+        <div class="uk-form-controls">
+          <select
+              class="uk-select uk-form-width-small"
+              id="bp">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="10">10</option>
+          </select>
+        </div>
         必要なBP: <input type="number" id="result" readonly /> <br />
-        6BPで走った場合: <span class="count-up count-size"></span>回</p> <br />
-        10BPで走った場合: <input type="number" id="result_10" readonly /> <br />
+        <span id="selected_bp"></span>BPで走った場合: <span class="count-up count-size"></span>回</p> <br />
+        <!-- 10BPで走った場合: <input type="number" id="result_10" readonly /> <br /> -->
         <input type="button" id="submit" value="計算" />
       </fieldset>
     </div>
@@ -115,29 +126,28 @@
       // 参加パス1000枚の取得ポイント10万ポイント
       // 参加パス10枚の取得ポイント1000ポイント
       function calc() {
-        var x, x6, x10;
+        var result_bp, result_live_count;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
         // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
         var tokkou = 1.0 + parseFloat($("#tokkou_5").val()) + parseFloat($("#tokkou_4").val()) + parseFloat($("#tokkou_3").val());
+        // 走る際のBP
+        var bp = parseInt($("#bp").val());
         // 1BPでライブした場合の獲得ポイント
         var nomal_live_point = h * 10000 * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
         // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
         var event_live_point = 100 * 10 + (h * 10000 * 0.0002) / 10;
         // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
-        x = Math.ceil(
+        result_bp = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
         );
-        x6 = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 6)
+        result_live_count = Math.ceil(
+          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * bp)
         );
-        x10 = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 10)
-        );
-        $("#result").val(x);
-        $(".count-up").text(x6);
-        $("#result_10").val(x10);
+        $("#selected_bp").text(bp);
+        $("#result").val(result_bp);
+        $(".count-up").text(result_live_count);
         // カウントアップアニメーション用スクリプト
         $(".count-up").each(function(){
         $(this).prop('Counter',0).animate({//0からカウントアップ
@@ -151,7 +161,6 @@
               }
           });
         });
-
       }
       const button = document.getElementById("submit");
       button.setAttribute("onclick", "calc()");
