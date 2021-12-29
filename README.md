@@ -11,5 +11,5 @@
 - HTML
 - CSS
 - JS
-- jQuery
-- UIkit
+- jQuery(3.6.0)
+- UIkit(3.9.4)
