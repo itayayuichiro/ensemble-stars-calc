@@ -97,17 +97,23 @@
         <div uk-margin id="result">
           <div class="uk-container">
               <h3>Result</h3>      
-              <label class="uk-form-label" for="form-stacked-text"
-                ><span id="selected_bp"></span>BPで走った場合のライブ回数:</label
-              >
               <dl class="uk-description-list">
-                  <dt>
-                    <span class="count-up count-size uk-text-bold uk-text-large"></span>回
-                    <span class="down-icon" uk-icon="chevron-down"></span>
-                  </dt>
-                  <dd>必要なBP</dd>
-                  <dd>スコアボーナス</dd>
-              </dl>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text"
+                    ><span id="selected_bp"></span>BPで走った場合のライブ回数:</label
+                  >
+                  <span id="result_live_count" class="count-up count-size uk-text-bold uk-text-large"></span>回
+                  <span class="down-icon" uk-icon="chevron-down"></span>
+                </dt>
+                <dd>
+                  <label class="uk-form-label" for="form-stacked-text"
+                    >必要なダイヤ数:</label
+                  >
+                  <span id="result_diamond" class="count-up count-size uk-text-bold uk-text-large"></span>個
+                </dd>
+                <dd>必要なBP</dd>
+                    <dd>スコアボーナス</dd>
+                </dl>
           </div>
         </div>
       </fieldset>
@@ -151,7 +157,7 @@
       // 参加パス1000枚の取得ポイント10万ポイント
       // 参加パス10枚の取得ポイント1000ポイント
       function calc() {
-        var result_bp, result_live_count;
+        var result_bp, result_live_count,result_diamond;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
         // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
@@ -167,13 +173,16 @@
         result_bp = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
         );
+        // 1BPの回復に使うダイヤ個数は2個
+        result_diamond = result_bp * 2;
         result_live_count = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * bp)
         );
         $("#result").show();
         $("#selected_bp").text(bp);
         // $("#result").val(result_bp);
-        $(".count-up").text(result_live_count);
+        $("#result_live_count").text(result_live_count);
+        $("#result_diamond").text(result_diamond);
         // カウントアップアニメーション用スクリプト
         $(".count-up").each(function(){
         $(this).prop('Counter',0).animate({//0からカウントアップ
