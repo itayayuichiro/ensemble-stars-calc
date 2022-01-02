@@ -121,6 +121,21 @@
             </select>
           </div>
         </div>
+        <div uk-margin>
+          <label class="uk-form-label" for="form-stacked-text">自然BP回復を考慮する:</label>
+          <input class="uk-checkbox" type="checkbox" id="natural_recovery">
+        </div>
+        <div uk-margin id="days_left">
+          <label class="uk-form-label" for="form-stacked-text">イベント残り日数:</label>
+          <div class="uk-form-controls">
+            <input
+              type="number"
+              class="uk-input uk-form-width-small"
+              value="7"
+              id="days_left_num"
+            />
+          </div>
+       </div>
         <p uk-margin>
           <input type="button" class="uk-button uk-button-primary" id="submit" value="計算" />
         </p>
@@ -180,6 +195,7 @@
         $("#tokkou_4").append('<option value="' + tokkou[1][i]["value"] + '">' + i + "</option>");
         $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
       }
+      $('#days_left').hide();
       $("#result").hide();
       // 1BPあたりのイベントポイント=2000
       // 1BPあたりスコアボーナス=スコア×0.0002
@@ -188,6 +204,7 @@
       // 参加パス10枚の取得ポイント1000ポイント
       function calc() {
         var result_bp, result_live_count,result_diamond,result_diamond_with_natural_recovery;
+        var result_natural_recovery = 0;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
         // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
@@ -199,14 +216,19 @@
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
         // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
         var event_live_point = 100 * 10 + (h * 10000 * 0.0002) / 10;
+
+        if ($('#natural_recovery').prop('checked')) {
+          // 30分で1BP回復,24時間で48BP回復×日数
+          result_natural_recovery = $('#days_left_num').val() * 48;
+        }
+
         // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
         result_bp = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
         );
         // 1BPの回復に使うダイヤ個数は2個
         result_diamond = result_bp * 2;
-        // 30分で1BP回復,24時間で48BP回復,イベントはだいたい7日
-        result_diamond_with_natural_recovery = result_bp * 2 - (48 * 7)
+        result_diamond_with_natural_recovery = result_bp * 2 - result_natural_recovery
         result_live_count = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * bp)
         );
@@ -231,6 +253,15 @@
       }
       const button = document.getElementById("submit");
       button.setAttribute("onclick", "calc()");
+      $('#natural_recovery').change(function() {      
+        //選択したvalue値を変数に格納
+        var prop = $(this).prop('checked');
+        if (prop) {
+          $('#days_left').show("slow");
+        } else {
+          $('#days_left').hide("slow");
+        }
+      });
     </script>
   </body>
 </html>
