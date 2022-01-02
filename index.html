@@ -236,7 +236,7 @@
         $("#selected_bp").text(bp);
         // $("#result").val(result_bp);
         $("#result_live_count").text(result_live_count);
-        $("#result_diamond").text(result_diamond);
+        $("#result_diamond").text(result_diamond_with_natural_recovery);
         // カウントアップアニメーション用スクリプト
         $(".count-up").each(function(){
         $(this).prop('Counter',0).animate({//0からカウントアップ
@@ -250,6 +250,7 @@
               }
           });
         });
+        $("html,body").animate({scrollTop:$('#result').offset().top});
       }
       const button = document.getElementById("submit");
       button.setAttribute("onclick", "calc()");
