@@ -254,10 +254,11 @@
       }
       const button = document.getElementById("submit");
       button.setAttribute("onclick", "calc()");
+
+      // 自然回復チェックボックスの管理
       $('#natural_recovery').change(function() {      
         //選択したvalue値を変数に格納
-        var prop = $(this).prop('checked');
-        if (prop) {
+        if ($(this).prop('checked')) {
           $('#days_left').show("slow");
         } else {
           $('#days_left').hide("slow");
