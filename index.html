@@ -14,8 +14,8 @@
       crossorigin="anonymous"
     ></script>
     <style>
-      .down-icon{
-        float: right;
+      body{
+        margin-bottom: 200px;
       }
     </style>
     <title>あんスタイベント計算機β</title>
@@ -142,28 +142,89 @@
         <div uk-margin id="result">
           <div class="uk-container">
               <h3>Result</h3>      
-              <dl class="uk-description-list">
+              <dl class="uk-description-list" id="result_main">
                 <dt>
                   <label class="uk-form-label" for="form-stacked-text"
                     ><span id="selected_bp"></span>BPで走った場合のライブ回数:</label
                   >
                   <span id="result_live_count" class="count-up count-size uk-text-bold uk-text-large"></span>回
-                  <span class="down-icon" uk-icon="chevron-down"></span>
                 </dt>
-                <dd>
+                <dt>
                   <label class="uk-form-label" for="form-stacked-text"
                     >必要なダイヤ数:</label
                   >
                   <span id="result_diamond" class="count-up count-size uk-text-bold uk-text-large"></span>個
+                </dt>
+                <dt>
+                  <button class="uk-button uk-button-default result-detail">詳細</button>
+                </dt>
+              </dl>
+              <dl class="uk-description-list" id="result_detail">
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">特攻ボーナス:</label>
+                </dt>
+                <dd>
+                  <span id="result_tokkou"></span>倍
                 </dd>
-                <dd>必要なBP</dd>
-                    <dd>スコアボーナス</dd>
-                </dl>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">走るBP:</label>
+                </dt>
+                <dd>
+                  <span id="result_bp"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">1BPあたりの通常ライブ獲得ポイント:</label>
+                </dt>
+                <dd>
+                  <span id="result_nomal_live_point"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">1BPあたりのイベントライブ獲得ポイント:</label>
+                </dt>
+                <dd>
+                  <span id="result_event_live_point"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">自然回復BP:</label>
+                </dt>
+                <dd>
+                  <span id="result_natural_recovery"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">必要BP計算式:</label>
+                </dt>
+                <dd>
+                  <span id="formula_bp"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">必要ライブ回数計算式:</label>
+                </dt>
+                <dd>
+                  <span id="formula_live"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">必要ダイヤ計算式(自然回復考慮なし):</label>
+                </dt>
+                <dd>
+                  <span id="formula_diamond"></span>
+                </dd>
+                <dt>
+                  <label class="uk-form-label" for="form-stacked-text">必要ダイヤ計算式(自然回復考慮あり):</label>
+                </dt>
+                <dd>
+                  <span id="formula_diamond_with_natural_recovery"></span>
+                </dd>
+              </dl>
           </div>
         </div>
+      <div class="uk-cover-container uk-height-medium" id="iframe_div">
+      </div>
       </fieldset>
     </div>
     <script>
+      const background_movie = [
+        "tWQwrmupwxo","ZhnrSUznud0","msy2_Uew8pc","SbbFk-rd1ic","nE4lFyA1h1o","WR3I0YhUsLU","70fY0myPTCQ","OlLEOBu3niI","akWUdSerd8g","oix9P668RgU","fwY6A_MmNlQ","OiQ_7Ae062I","slqYcVx-b0I","_WgnJr86g8s","mg7pQL0SOEg","ZLCQSpCJLyk","fEDUMyTtCZE","oLIzhGxEAnQ","CLwPF7un4hs","kmBXpUjMR1A","Xb99pd4m5zQ","LT2Orn0rEnE","ISLUkpKUCGg","rah_1V44P-M","UvhzPCLfUcY","FhwWHNZ-u2k","1u6DYkxkyOc","lcAIa5_-4Dg","d1297CPvcWU","62PQ0jLY9pY","svlc4bEAU1A","ym-y7CR1gOg","-S_-dkWWqGs","GHWOxOEa5jk","Evw3xsIEjCo","MPj62Jc-ymc","TkU3tEhV6Ys","IBpr_hIw_xg","KzXJ3qDSryY","IR7JEJUcM4w","yJUn9u5-fgA","Szbcg9FzXeY","Sjon4P4_i2I","INjyHx5jdH4","5yXAi6lbvIs","30Ir3r88iBs","0igFnT8mbEo","7LskYTvBIFU","uieiY13-ykA","6JGrysl7flQ","5aaGi5O0LjU","lmcwm77SmCg","I48D23VrA0M","EtSvzhD4XCA","8Oq0DkU-_PM","TJpmA_3RuqE","ffrstjcl7bk","4m-CXEpFbB8","Kq8tPKrbTL4","u5LKdihgiLs","cc_C_8DcKIc","x358hbFHzqw","4SOK8YoAmv0","jY90DU1I7yQ","J5FNODMnwv0","NixzrXh8xy0","-f4gvmbpTwk","kZtovaaG7bc","P9avQ3nUalg","DTqaPqVLY9A","7vSYWExt784","0H52wn04Cjg","74kjpdMIBZA","T8CjsXshGtE","RuRZGk6nN6s","Byvauh-xmxI","045j86hondk","riab1PINrDM","LmzwWIaLP8M","Vqp-YeUTvE0","EebaqB7tse0","KRdFr8Xpb08","P_u-kx8r5fc","YYeXTpef69s","p793Rq4V4h8","Vi4W5PaBxGQ","byuUZoMAeiw","qmdlxh3xNs8","CrVIEFM791Y","bzuIiCEzELo","A1lc2sTyams","LKm2hdLNVxw","-Z-hgUnoR_s","JRU-DOyObwk","3jMYNA47bvs","47PVDkCyyeI","e955HAnN6uQ","jI-ooGSKNQQ","gCJr9BEMV4w","zNc6xrd6ydE"
+      ];
       const tokkou = [
         [
           {"label" :"0","value":0.0},
@@ -189,14 +250,21 @@
           {"label" :"0","value":0.04},
           {"label" :"0","value":0.05}
         ]
-      ]
+      ];
       for (var i = 0; i < 6; i++) {
         $("#tokkou_5").append('<option value="' + tokkou[0][i]["value"] + '">' + i + "</option>");
         $("#tokkou_4").append('<option value="' + tokkou[1][i]["value"] + '">' + i + "</option>");
         $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
       }
+      // 作ってみたけどやかましい気がしてきた
+      // $('#iframe_div').append(
+      //   '<iframe src="https://www.youtube-nocookie.com/embed/'+
+      //     background_movie[Math.floor( Math.random() * background_movie.length)]
+      //   +'?autoplay=1&amp;controls=0&amp;showinfo=0&amp;rel=0&amp;loop=1&amp;modestbranding=1&amp;wmode=transparent" width="1920" height="1080" frameborder="0" allowfullscreen uk-cover></iframe>'
+      // );
       $('#days_left').hide();
       $("#result").hide();
+      $("#result_detail").hide();
       // 1BPあたりのイベントポイント=2000
       // 1BPあたりスコアボーナス=スコア×0.0002
       // 1BPあたりの取得PASS=10
@@ -237,6 +305,15 @@
         // $("#result").val(result_bp);
         $("#result_live_count").text(result_live_count);
         $("#result_diamond").text(result_diamond_with_natural_recovery);
+        $("#result_tokkou").text(tokkou);
+        $("#result_bp").text(bp);
+        $("#result_nomal_live_point").text(nomal_live_point);
+        $("#result_event_live_point").text(event_live_point);
+        $("#result_natural_recovery").text(result_natural_recovery);
+        $("#formula_bp").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+')');
+        $("#formula_live").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+' * '+bp+')');
+        $("#formula_diamond").text(result_bp + ' * 2');
+        $("#formula_diamond_with_natural_recovery").text(result_bp + ' * 2 - '+result_natural_recovery);
         // カウントアップアニメーション用スクリプト
         $(".count-up").each(function(){
         $(this).prop('Counter',0).animate({//0からカウントアップ
@@ -254,7 +331,10 @@
       }
       const button = document.getElementById("submit");
       button.setAttribute("onclick", "calc()");
-
+      $('.result-detail').click(function() {
+        $(this).hide();
+        $("#result_detail").show();
+      })
       // 自然回復チェックボックスの管理
       $('#natural_recovery').change(function() {      
         //選択したvalue値を変数に格納
