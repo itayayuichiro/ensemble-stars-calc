@@ -82,6 +82,19 @@
           </div>
         </div>
         <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text"
+            >イベントライブスコア:</label
+          >
+          <div class="uk-form-controls">
+            <input
+              type="number"
+              class="uk-input uk-form-width-small"
+              placeholder="180"
+              id="event_high_score"
+            />万
+          </div>
+        </div>
+        <div class="uk-margin">
           <label class="uk-form-label" for="form-stacked-text">特攻枚数:</label>
           <div uk-grid>
             <div class="uk-width-1-3">
@@ -275,6 +288,7 @@
         var result_natural_recovery = 0;
         var t = $("#target_score").val();
         var h = $("#high_score").val();
+        var e= $("#event_high_score").val();
         // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
         var tokkou = 1.0 + parseFloat($("#tokkou_5").val()) + parseFloat($("#tokkou_4").val()) + parseFloat($("#tokkou_3").val());
         // 走る際のBP
@@ -283,7 +297,7 @@
         var nomal_live_point = h * 10000 * 0.0002 + 2000;
         // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
         // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
-        var event_live_point = 100 * 10 + (h * 10000 * 0.0002) / 10;
+        var event_live_point = 100 * 10 + (e * 10000 * 0.0002) / 10;
 
         if ($('#natural_recovery').prop('checked')) {
           // 30分で1BP回復,24時間で48BP回復×日数
