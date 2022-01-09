@@ -135,6 +135,10 @@
           </div>
         </div>
         <div uk-margin>
+          <label class="uk-form-label" for="form-stacked-text">スコアボーナスの報酬を考慮する:</label>
+          <input class="uk-checkbox" type="checkbox" id="score_bonus_bp" checked>
+        </div>
+        <div uk-margin>
           <label class="uk-form-label" for="form-stacked-text">自然BP回復を考慮する:</label>
           <input class="uk-checkbox" type="checkbox" id="natural_recovery">
         </div>
@@ -198,6 +202,12 @@
                   <span id="result_event_live_point"></span>
                 </dd>
                 <dt>
+                  <label class="uk-form-label" for="form-stacked-text">獲得BP:</label>
+                </dt>
+                <dd>
+                  <span id="formula_acquired_bp"></span>
+                </dd>
+                <dt>
                   <label class="uk-form-label" for="form-stacked-text">自然回復BP:</label>
                 </dt>
                 <dd>
@@ -237,6 +247,27 @@
     <script>
       const background_movie = [
         "tWQwrmupwxo","ZhnrSUznud0","msy2_Uew8pc","SbbFk-rd1ic","nE4lFyA1h1o","WR3I0YhUsLU","70fY0myPTCQ","OlLEOBu3niI","akWUdSerd8g","oix9P668RgU","fwY6A_MmNlQ","OiQ_7Ae062I","slqYcVx-b0I","_WgnJr86g8s","mg7pQL0SOEg","ZLCQSpCJLyk","fEDUMyTtCZE","oLIzhGxEAnQ","CLwPF7un4hs","kmBXpUjMR1A","Xb99pd4m5zQ","LT2Orn0rEnE","ISLUkpKUCGg","rah_1V44P-M","UvhzPCLfUcY","FhwWHNZ-u2k","1u6DYkxkyOc","lcAIa5_-4Dg","d1297CPvcWU","62PQ0jLY9pY","svlc4bEAU1A","ym-y7CR1gOg","-S_-dkWWqGs","GHWOxOEa5jk","Evw3xsIEjCo","MPj62Jc-ymc","TkU3tEhV6Ys","IBpr_hIw_xg","KzXJ3qDSryY","IR7JEJUcM4w","yJUn9u5-fgA","Szbcg9FzXeY","Sjon4P4_i2I","INjyHx5jdH4","5yXAi6lbvIs","30Ir3r88iBs","0igFnT8mbEo","7LskYTvBIFU","uieiY13-ykA","6JGrysl7flQ","5aaGi5O0LjU","lmcwm77SmCg","I48D23VrA0M","EtSvzhD4XCA","8Oq0DkU-_PM","TJpmA_3RuqE","ffrstjcl7bk","4m-CXEpFbB8","Kq8tPKrbTL4","u5LKdihgiLs","cc_C_8DcKIc","x358hbFHzqw","4SOK8YoAmv0","jY90DU1I7yQ","J5FNODMnwv0","NixzrXh8xy0","-f4gvmbpTwk","kZtovaaG7bc","P9avQ3nUalg","DTqaPqVLY9A","7vSYWExt784","0H52wn04Cjg","74kjpdMIBZA","T8CjsXshGtE","RuRZGk6nN6s","Byvauh-xmxI","045j86hondk","riab1PINrDM","LmzwWIaLP8M","Vqp-YeUTvE0","EebaqB7tse0","KRdFr8Xpb08","P_u-kx8r5fc","YYeXTpef69s","p793Rq4V4h8","Vi4W5PaBxGQ","byuUZoMAeiw","qmdlxh3xNs8","CrVIEFM791Y","bzuIiCEzELo","A1lc2sTyams","LKm2hdLNVxw","-Z-hgUnoR_s","JRU-DOyObwk","3jMYNA47bvs","47PVDkCyyeI","e955HAnN6uQ","jI-ooGSKNQQ","gCJr9BEMV4w","zNc6xrd6ydE"
+      ];
+      // スコアボーナスで手に入るダイヤ/ホイッスル/メガホン
+      const score_bonus_bp = [
+        {"type":"ホイッスル","score":0.6,"count":3,"get_bp":3},
+        {"type":"ダイヤ","score":1,"count":10,"get_bp":5},
+        {"type":"ホイッスル","score":4,"count":3,"get_bp":3},
+        {"type":"ホイッスル","score":9,"count":3,"get_bp":3},
+        {"type":"ホイッスル","score":14,"count":3,"get_bp":3},
+        {"type":"ダイヤ","score":16,"count":10,"get_bp":5},
+        {"type":"ホイッスル","score":26,"count":3,"get_bp":3},
+        {"type":"ダイヤ","score":34,"count":10,"get_bp":5},
+        {"type":"ホイッスル","score":36,"count":5,"get_bp":5},
+        {"type":"ダイヤ","score":40,"count":10,"get_bp":5},
+        {"type":"ホイッスル","score":42,"count":5,"get_bp":5},
+        {"type":"ダイヤ","score":48,"count":10,"get_bp":5},
+        {"type":"ホイッスル","score":54,"count":5,"get_bp":5},
+        {"type":"ダイヤ","score":64,"count":15,"get_bp":7.5},
+        {"type":"メガホン","score":105,"count":1,"get_bp":10},
+        {"type":"ダイヤ","score":120,"count":15,"get_bp":7.5},
+        {"type":"メガホン","score":255,"count":1,"get_bp":10},
+        {"type":"メガホン","score":300,"count":1,"get_bp":10}
       ];
       const tokkou = [
         [
@@ -278,6 +309,22 @@
       $('#days_left').hide();
       $("#result").hide();
       $("#result_detail").hide();
+      function calc_score_bonus_bp(point){
+        var result = {"ホイッスル":0,"ダイヤ":0,"メガホン":0,"bp":0};
+        for(var i = 0; i < score_bonus_bp.length;i++){
+          if(score_bonus_bp[i].score <= point){
+            result["bp"] = result["bp"] + score_bonus_bp[i].get_bp;
+            if (score_bonus_bp[i].type === "ホイッスル"){
+              result["ホイッスル"] = result["ホイッスル"] + score_bonus_bp[i].count;
+            }else if (score_bonus_bp[i].type === "ダイヤ"){
+              result["ダイヤ"] = result["ダイヤ"] + score_bonus_bp[i].count;
+            }else if(score_bonus_bp[i].type === "メガホン"){
+              result["メガホン"] = result["メガホン"] + score_bonus_bp[i].count;
+            }
+          }
+        }
+        return result
+      }
       // 1BPあたりのイベントポイント=2000
       // 1BPあたりスコアボーナス=スコア×0.0002
       // 1BPあたりの取得PASS=10
@@ -308,6 +355,11 @@
         result_bp = Math.ceil(
           (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
         );
+
+        // 獲得するダイヤ/ホイッスル/メガホンを考慮
+        if($('#score_bonus_bp').prop('checked')){
+          result_bp = result_bp - calc_score_bonus_bp(t)["bp"];
+        }
         // 1BPの回復に使うダイヤ個数は2個
         result_diamond = result_bp * 2;
         result_diamond_with_natural_recovery = result_bp * 2 - result_natural_recovery
@@ -324,6 +376,7 @@
         $("#result_nomal_live_point").text(nomal_live_point);
         $("#result_event_live_point").text(event_live_point);
         $("#result_natural_recovery").text(result_natural_recovery);
+        $("#formula_acquired_bp").text('ホイッスル:'+calc_score_bonus_bp(t)["ホイッスル"]+'+ダイヤ:'+calc_score_bonus_bp(t)["ダイヤ"]+'+メガホン:'+calc_score_bonus_bp(t)["メガホン"] + ' = ' + calc_score_bonus_bp(t).bp);
         $("#formula_bp").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+')');
         $("#formula_live").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+' * '+bp+')');
         $("#formula_diamond").text(result_bp + ' * 2');
