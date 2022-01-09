@@ -379,8 +379,8 @@
         $("#formula_acquired_bp").text('ホイッスル:'+calc_score_bonus_bp(t)["ホイッスル"]+'+ダイヤ:'+calc_score_bonus_bp(t)["ダイヤ"]+'+メガホン:'+calc_score_bonus_bp(t)["メガホン"] + ' = ' + calc_score_bonus_bp(t).bp);
         $("#formula_bp").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+')');
         $("#formula_live").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+' * '+bp+')');
-        $("#formula_diamond").text(result_bp + ' * 2');
-        $("#formula_diamond_with_natural_recovery").text(result_bp + ' * 2 - '+result_natural_recovery);
+        $("#formula_diamond").text('('+result_bp+calc_score_bonus_bp(t).bp + ' - '+calc_score_bonus_bp(t).bp+') * 2');
+        $("#formula_diamond_with_natural_recovery").text('('+result_bp+calc_score_bonus_bp(t).bp + ' - '+calc_score_bonus_bp(t).bp+') * 2 - '+result_natural_recovery);
         // カウントアップアニメーション用スクリプト
         $(".count-up").each(function(){
         $(this).prop('Counter',0).animate({//0からカウントアップ
