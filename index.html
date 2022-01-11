@@ -33,9 +33,9 @@
           </div>
           <div class="uk-navbar-right">
               <ul class="uk-navbar-nav uk-visible@s">
-                  <li><a href="#">このサイトについて</a></li>
-                  <li><a href="#">ユニットイベント計算</a></li>
-                  <li><a href="#">シャッフルイベント計算</a></li>
+                  <li class="uk-active"><a href="./index.html">このサイトについて</a></li>
+                  <li><a href="./calc.html?type=unit">ユニットイベント計算</a></li>
+                  <li><a href="./calc.html?type=shuffle">シャッフルイベント計算</a></li>
               </ul>
               <a href="#" class="uk-navbar-toggle uk-hidden@s" uk-navbar-toggle-icon uk-toggle="target: #sidenav"></a>
           </div>
@@ -44,373 +44,50 @@
     <div id="sidenav" uk-offcanvas="flip: true" class="uk-offcanvas">
       <div class="uk-offcanvas-bar">
           <ul class="uk-nav">
-            <li><a href="#">このサイトについて</a></li>
-            <li><a href="#">ユニットイベント計算</a></li>
-            <li><a href="#">シャッフルイベント計算</a></li>
+            <li><a href="./index.html">このサイトについて</a></li>
+            <li><a href="./calc.html?type=unit">ユニットイベント計算</a></li>
+            <li><a href="./calc.html?type=shuffle">シャッフルイベント計算</a></li>
           </ul>
       </div>
     </div>
     <div class="uk-container">
       <div uk-margin>
-        <h3>ユニットイベント計算</h3>
-      </div>
-      <fieldset class="uk-fieldset">
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text"
-            >目標ポイント:</label
-          >
-          <div class="uk-form-controls">
-            <input
-              type="number"
-              class="uk-input uk-form-width-small"
-              placeholder="350"
-              id="target_score"
-            />万pt
-          </div>
-        </div>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text"
-            >アベレージスコア:</label
-          >
-          <div class="uk-form-controls">
-            <input
-              type="number"
-              class="uk-input uk-form-width-small"
-              placeholder="180"
-              id="high_score"
-            />万
-          </div>
-        </div>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text"
-            >イベントライブスコア:</label
-          >
-          <div class="uk-form-controls">
-            <input
-              type="number"
-              class="uk-input uk-form-width-small"
-              placeholder="180"
-              id="event_high_score"
-            />万
-          </div>
-        </div>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text">特攻枚数:</label>
-          <div uk-grid>
-            <div class="uk-width-1-3">
-              星5:
-              <select
-                class="uk-select uk-form-width-small"
-                id="tokkou_5"
-              ></select>
-            </div>
-            <div class="uk-width-1-3">
-              星4:
-              <select
-                class="uk-select uk-form-width-small"
-                id="tokkou_4"
-              ></select>
-            </div>
-            <div class="uk-width-1-3">
-              星3:
-              <select
-                class="uk-select uk-form-width-small"
-                id="tokkou_3"
-              ></select>
-            </div>
-          </div>
-        </div>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text">走るBP:</label>
-          <div class="uk-form-controls">
-            <select
-                class="uk-select uk-form-width-small"
-                id="bp">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="6">6</option>
-                <option value="10">10</option>
-            </select>
-          </div>
-        </div>
-        <div uk-margin>
-          <label class="uk-form-label" for="form-stacked-text">スコアボーナスの報酬を考慮する:</label>
-          <input class="uk-checkbox" type="checkbox" id="score_bonus_bp" checked>
-        </div>
-        <div uk-margin>
-          <label class="uk-form-label" for="form-stacked-text">自然BP回復を考慮する:</label>
-          <input class="uk-checkbox" type="checkbox" id="natural_recovery">
-        </div>
-        <div uk-margin id="days_left">
-          <label class="uk-form-label" for="form-stacked-text">イベント残り日数:</label>
-          <div class="uk-form-controls">
-            <input
-              type="number"
-              class="uk-input uk-form-width-small"
-              value="7"
-              id="days_left_num"
-            />
-          </div>
-       </div>
-        <p uk-margin>
-          <input type="button" class="uk-button uk-button-primary" id="submit" value="計算" />
+        <h3>このサイトについて</h3>
+        <p>
+          このサイトは「あんさんぶるスターズ！！music」のユニットイベント/シャッフルイベントにて必要になるライブ回数やダイヤ数をざっくり計算するものです。
+          絶賛開発途中のものなので不具合等あったら.....ごめんなさい！！！！！！
         </p>
-        <div uk-margin id="result">
-          <div class="uk-container">
-              <h3>Result</h3>      
-              <dl class="uk-description-list" id="result_main">
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text"
-                    ><span id="selected_bp"></span>BPで走った場合のライブ回数:</label
-                  >
-                  <span id="result_live_count" class="count-up count-size uk-text-bold uk-text-large"></span>回
-                </dt>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text"
-                    >必要なダイヤ数:</label
-                  >
-                  <span id="result_diamond" class="count-up count-size uk-text-bold uk-text-large"></span>個
-                </dt>
-                <dt>
-                  <button class="uk-button uk-button-default result-detail">詳細</button>
-                </dt>
-              </dl>
-              <dl class="uk-description-list" id="result_detail">
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">特攻ボーナス:</label>
-                </dt>
-                <dd>
-                  <span id="result_tokkou"></span>倍
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">走るBP:</label>
-                </dt>
-                <dd>
-                  <span id="result_bp"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">1BPあたりの通常ライブ獲得ポイント:</label>
-                </dt>
-                <dd>
-                  <span id="result_nomal_live_point"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">1BPあたりのイベントライブ獲得ポイント:</label>
-                </dt>
-                <dd>
-                  <span id="result_event_live_point"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">獲得BP:</label>
-                </dt>
-                <dd>
-                  <span id="formula_acquired_bp"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">自然回復BP:</label>
-                </dt>
-                <dd>
-                  <span id="result_natural_recovery"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">必要BP計算式:</label>
-                </dt>
-                <dd>
-                  <span id="formula_bp"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">必要ライブ回数計算式:</label>
-                </dt>
-                <dd>
-                  <span id="formula_live"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">必要ダイヤ計算式(自然回復考慮なし):</label>
-                </dt>
-                <dd>
-                  <span id="formula_diamond"></span>
-                </dd>
-                <dt>
-                  <label class="uk-form-label" for="form-stacked-text">必要ダイヤ計算式(自然回復考慮あり):</label>
-                </dt>
-                <dd>
-                  <span id="formula_diamond_with_natural_recovery"></span>
-                </dd>
-              </dl>
-          </div>
-        </div>
-      <div class="uk-cover-container uk-height-medium" id="iframe_div">
+        <h3>使い方</h3>
+        <p>
+          こちらのサイトの上部の「ユニットイベント計算」「シャッフルイベント計算」から該当するものを選択し、必要な項目を入力してもらって「計算」を押してもらうと必要なライブ回数と必要なダイヤ数が算出されるようになってます。
+        </p>
+        <h3>項目説明</h3>
+        <h4>目標ポイント</h4>
+        <p>こちらには目標ポイントを入力ください。星5を1枚獲得目標の場合350となります。(万は省略)</p>
+        <h4>アベレージスコア</h4>
+        <p>こちらにはライブでのスコアを入力ください。</p>
+        <h4>イベントライブスコア</h4>
+        <p>こちらはイベント楽曲でのスコアを入力ください。(わからない場合は上部のアベレージスコアと同じものを入れとけば一旦良いかと...)</p>
+        <h4>特攻枚数</h4>
+        <p>こちらはイベント特効カードの枚数を入力ください。</p>
+        <h4>走るBP</h4>
+        <p>こちらは走るBPを入力ください。</p>
+        <h4>スコアボーナスの報酬を考慮する</h4>
+        <p>
+          こちらはイベントを走っている最中に報酬としてもらえるホイッスル等を考慮するかというものになっています。
+          <ul>
+            <li>チェックした場合→獲得したダイヤやホイッスルをすべて消費するものとして差し引いて計算</li>
+            <li>チェックしなかった場合→獲得したダイヤやホイッスルを考慮せず計算</li>
+          </ul>
+        </p>
+        <h4>自然BP回復を考慮する</h4>
+        <p>
+          こちらは名称通り自然回復するBPの考慮の有無が選択できます。
+        </p>
+        <h3>問い合わせ先</h3>
+        <p>不明な点ございましたら気軽にお問い合わせください。</p>
+        <a href="https://twitter.com/hotarun_love">@hotarun_love</a>
       </div>
-      </fieldset>
     </div>
-    <script>
-      const background_movie = [
-        "tWQwrmupwxo","ZhnrSUznud0","msy2_Uew8pc","SbbFk-rd1ic","nE4lFyA1h1o","WR3I0YhUsLU","70fY0myPTCQ","OlLEOBu3niI","akWUdSerd8g","oix9P668RgU","fwY6A_MmNlQ","OiQ_7Ae062I","slqYcVx-b0I","_WgnJr86g8s","mg7pQL0SOEg","ZLCQSpCJLyk","fEDUMyTtCZE","oLIzhGxEAnQ","CLwPF7un4hs","kmBXpUjMR1A","Xb99pd4m5zQ","LT2Orn0rEnE","ISLUkpKUCGg","rah_1V44P-M","UvhzPCLfUcY","FhwWHNZ-u2k","1u6DYkxkyOc","lcAIa5_-4Dg","d1297CPvcWU","62PQ0jLY9pY","svlc4bEAU1A","ym-y7CR1gOg","-S_-dkWWqGs","GHWOxOEa5jk","Evw3xsIEjCo","MPj62Jc-ymc","TkU3tEhV6Ys","IBpr_hIw_xg","KzXJ3qDSryY","IR7JEJUcM4w","yJUn9u5-fgA","Szbcg9FzXeY","Sjon4P4_i2I","INjyHx5jdH4","5yXAi6lbvIs","30Ir3r88iBs","0igFnT8mbEo","7LskYTvBIFU","uieiY13-ykA","6JGrysl7flQ","5aaGi5O0LjU","lmcwm77SmCg","I48D23VrA0M","EtSvzhD4XCA","8Oq0DkU-_PM","TJpmA_3RuqE","ffrstjcl7bk","4m-CXEpFbB8","Kq8tPKrbTL4","u5LKdihgiLs","cc_C_8DcKIc","x358hbFHzqw","4SOK8YoAmv0","jY90DU1I7yQ","J5FNODMnwv0","NixzrXh8xy0","-f4gvmbpTwk","kZtovaaG7bc","P9avQ3nUalg","DTqaPqVLY9A","7vSYWExt784","0H52wn04Cjg","74kjpdMIBZA","T8CjsXshGtE","RuRZGk6nN6s","Byvauh-xmxI","045j86hondk","riab1PINrDM","LmzwWIaLP8M","Vqp-YeUTvE0","EebaqB7tse0","KRdFr8Xpb08","P_u-kx8r5fc","YYeXTpef69s","p793Rq4V4h8","Vi4W5PaBxGQ","byuUZoMAeiw","qmdlxh3xNs8","CrVIEFM791Y","bzuIiCEzELo","A1lc2sTyams","LKm2hdLNVxw","-Z-hgUnoR_s","JRU-DOyObwk","3jMYNA47bvs","47PVDkCyyeI","e955HAnN6uQ","jI-ooGSKNQQ","gCJr9BEMV4w","zNc6xrd6ydE"
-      ];
-      // スコアボーナスで手に入るダイヤ/ホイッスル/メガホン
-      const score_bonus_bp = [
-        {"type":"ホイッスル","score":0.6,"count":3,"get_bp":3},
-        {"type":"ダイヤ","score":1,"count":10,"get_bp":5},
-        {"type":"ホイッスル","score":4,"count":3,"get_bp":3},
-        {"type":"ホイッスル","score":9,"count":3,"get_bp":3},
-        {"type":"ホイッスル","score":14,"count":3,"get_bp":3},
-        {"type":"ダイヤ","score":16,"count":10,"get_bp":5},
-        {"type":"ホイッスル","score":26,"count":3,"get_bp":3},
-        {"type":"ダイヤ","score":34,"count":10,"get_bp":5},
-        {"type":"ホイッスル","score":36,"count":5,"get_bp":5},
-        {"type":"ダイヤ","score":40,"count":10,"get_bp":5},
-        {"type":"ホイッスル","score":42,"count":5,"get_bp":5},
-        {"type":"ダイヤ","score":48,"count":10,"get_bp":5},
-        {"type":"ホイッスル","score":54,"count":5,"get_bp":5},
-        {"type":"ダイヤ","score":64,"count":15,"get_bp":7.5},
-        {"type":"メガホン","score":105,"count":1,"get_bp":10},
-        {"type":"ダイヤ","score":120,"count":15,"get_bp":7.5},
-        {"type":"メガホン","score":255,"count":1,"get_bp":10},
-        {"type":"メガホン","score":300,"count":1,"get_bp":10}
-      ];
-      const tokkou = [
-        [
-          {"label" :"0","value":0.0},
-          {"label" :"0","value":0.2},
-          {"label" :"0","value":0.5},
-          {"label" :"0","value":0.75},
-          {"label" :"0","value":1.0},
-          {"label" :"0","value":1.5}
-        ],
-        [
-          {"label" :"0","value":0.0},
-          {"label" :"0","value":0.05},
-          {"label" :"0","value":0.15},
-          {"label" :"0","value":0.25},
-          {"label" :"0","value":0.35},
-          {"label" :"0","value":0.5}
-        ],
-        [
-          {"label" :"0","value":0.0},
-          {"label" :"0","value":0.01},
-          {"label" :"0","value":0.02},
-          {"label" :"0","value":0.03},
-          {"label" :"0","value":0.04},
-          {"label" :"0","value":0.05}
-        ]
-      ];
-      for (var i = 0; i < 6; i++) {
-        $("#tokkou_5").append('<option value="' + tokkou[0][i]["value"] + '">' + i + "</option>");
-        $("#tokkou_4").append('<option value="' + tokkou[1][i]["value"] + '">' + i + "</option>");
-        $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
-      }
-      // 作ってみたけどやかましい気がしてきた
-      // $('#iframe_div').append(
-      //   '<iframe src="https://www.youtube-nocookie.com/embed/'+
-      //     background_movie[Math.floor( Math.random() * background_movie.length)]
-      //   +'?autoplay=1&amp;controls=0&amp;showinfo=0&amp;rel=0&amp;loop=1&amp;modestbranding=1&amp;wmode=transparent" width="1920" height="1080" frameborder="0" allowfullscreen uk-cover></iframe>'
-      // );
-      $('#days_left').hide();
-      $("#result").hide();
-      $("#result_detail").hide();
-      function calc_score_bonus_bp(point){
-        var result = {"ホイッスル":0,"ダイヤ":0,"メガホン":0,"bp":0};
-        for(var i = 0; i < score_bonus_bp.length;i++){
-          if(score_bonus_bp[i].score <= point){
-            result["bp"] = result["bp"] + score_bonus_bp[i].get_bp;
-            if (score_bonus_bp[i].type === "ホイッスル"){
-              result["ホイッスル"] = result["ホイッスル"] + score_bonus_bp[i].count;
-            }else if (score_bonus_bp[i].type === "ダイヤ"){
-              result["ダイヤ"] = result["ダイヤ"] + score_bonus_bp[i].count;
-            }else if(score_bonus_bp[i].type === "メガホン"){
-              result["メガホン"] = result["メガホン"] + score_bonus_bp[i].count;
-            }
-          }
-        }
-        return result
-      }
-      // 1BPあたりのイベントポイント=2000
-      // 1BPあたりスコアボーナス=スコア×0.0002
-      // 1BPあたりの取得PASS=10
-      // 参加パス1000枚の取得ポイント10万ポイント
-      // 参加パス10枚の取得ポイント1000ポイント
-      function calc() {
-        var result_bp, result_live_count,result_diamond,result_diamond_with_natural_recovery;
-        var result_natural_recovery = 0;
-        var t = $("#target_score").val();
-        var h = $("#high_score").val();
-        var e= $("#event_high_score").val();
-        // 特攻なしの1倍に対して、各種特攻ボーナスの数値を加算
-        var tokkou = 1.0 + parseFloat($("#tokkou_5").val()) + parseFloat($("#tokkou_4").val()) + parseFloat($("#tokkou_3").val());
-        // 走る際のBP
-        var bp = parseInt($("#bp").val());
-        // 1BPでライブした場合の獲得ポイント
-        var nomal_live_point = h * 10000 * 0.0002 + 2000;
-        // 参加パス10でイベントライブした場合の獲得ポイント(1BPで手に入るのが10PASSなので)
-        // ライブパスは100枚で1ライブなのでスコアボーナスの方はその1/10で計算する
-        var event_live_point = 100 * 10 + (e * 10000 * 0.0002) / 10;
-
-        if ($('#natural_recovery').prop('checked')) {
-          // 30分で1BP回復,24時間で48BP回復×日数
-          result_natural_recovery = $('#days_left_num').val() * 48;
-        }
-
-        // サンプル数式 t*10000 = ((h * 10000 * 0.0002) + 2000 + 1000) * x
-        result_bp = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * 1)
-        );
-
-        // 獲得するダイヤ/ホイッスル/メガホンを考慮
-        if($('#score_bonus_bp').prop('checked')){
-          result_bp = result_bp - calc_score_bonus_bp(t)["bp"];
-        }
-        // 1BPの回復に使うダイヤ個数は2個
-        result_diamond = result_bp * 2;
-        result_diamond_with_natural_recovery = result_bp * 2 - result_natural_recovery
-        result_live_count = Math.ceil(
-          (t * 10000) / ((nomal_live_point + event_live_point) * tokkou * bp)
-        );
-        $("#result").show();
-        $("#selected_bp").text(bp);
-        // $("#result").val(result_bp);
-        $("#result_live_count").text(result_live_count);
-        $("#result_diamond").text(result_diamond_with_natural_recovery);
-        $("#result_tokkou").text(tokkou);
-        $("#result_bp").text(bp);
-        $("#result_nomal_live_point").text(nomal_live_point);
-        $("#result_event_live_point").text(event_live_point);
-        $("#result_natural_recovery").text(result_natural_recovery);
-        $("#formula_acquired_bp").text('ホイッスル:'+calc_score_bonus_bp(t)["ホイッスル"]+'+ダイヤ:'+calc_score_bonus_bp(t)["ダイヤ"]+'+メガホン:'+calc_score_bonus_bp(t)["メガホン"] + ' = ' + calc_score_bonus_bp(t).bp);
-        $("#formula_bp").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+')');
-        $("#formula_live").text('('+t+' * 10000) / (('+nomal_live_point+' + '+event_live_point+') * '+event_live_point+' * '+bp+')');
-        $("#formula_diamond").text('('+result_bp+calc_score_bonus_bp(t).bp + ' - '+calc_score_bonus_bp(t).bp+') * 2');
-        $("#formula_diamond_with_natural_recovery").text('('+result_bp+calc_score_bonus_bp(t).bp + ' - '+calc_score_bonus_bp(t).bp+') * 2 - '+result_natural_recovery);
-        // カウントアップアニメーション用スクリプト
-        $(".count-up").each(function(){
-        $(this).prop('Counter',0).animate({//0からカウントアップ
-              Counter: $(this).text()
-          }, {
-          // スピードやアニメーションの設定
-              duration: 2000,//数字が大きいほど変化のスピードが遅くなる。2000=2秒
-              easing: 'swing',//動きの種類。他にもlinearなど設定可能
-              step: function (now) {
-                  $(this).text(Math.ceil(now));
-              }
-          });
-        });
-        $("html,body").animate({scrollTop:$('#result').offset().top});
-      }
-      const button = document.getElementById("submit");
-      button.setAttribute("onclick", "calc()");
-      $('.result-detail').click(function() {
-        $(this).hide();
-        $("#result_detail").show();
-      })
-      // 自然回復チェックボックスの管理
-      $('#natural_recovery').change(function() {      
-        //選択したvalue値を変数に格納
-        if ($(this).prop('checked')) {
-          $('#days_left').show("slow");
-        } else {
-          $('#days_left').hide("slow");
-        }
-      });
-    </script>
   </body>
 </html>
