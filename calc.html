@@ -311,6 +311,15 @@
           {"label" :"0","value":0.30},
           {"label" :"0","value":0.45},
           {"label" :"0","value":0.6}
+        ],
+        // shuffleの場合使わない
+        [
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.0},
+          {"label" :"0","value":0.0}
         ]
       ];
       // ユニット/シャッフル分岐
@@ -325,9 +334,7 @@
       for (var i = 0; i < 6; i++) {
         $("#tokkou_5").append('<option value="' + tokkou[0][i]["value"] + '">' + i + "</option>");
         $("#tokkou_4").append('<option value="' + tokkou[1][i]["value"] + '">' + i + "</option>");
-        if(tokkou[2] != null){
-          $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
-        }
+        $("#tokkou_3").append('<option value="' + tokkou[2][i]["value"] + '">' + i + "</option>");
       }
       // 作ってみたけどやかましい気がしてきた
       // $('#iframe_div').append(
